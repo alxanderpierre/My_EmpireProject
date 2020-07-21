@@ -6,7 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 import mysql.connector
-import password
+import pass_ 
 class EmpirePipeline:
 
     def __init__(self):
