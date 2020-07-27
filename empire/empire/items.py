@@ -22,3 +22,5 @@ class EmpireItem(scrapy.Item):
     platfrom = scrapy.Field()
     domain_type = scrapy.Field()
     year_created = scrapy.Field()
+    page_views = scrapy.Field()
+    unique_users = scrapy.Field()

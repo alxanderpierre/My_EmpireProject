@@ -6,7 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 import mysql.connector
-import pass_ 
+# import pass_ 
 class EmpirePipeline:
 
     def __init__(self):
@@ -17,7 +17,7 @@ class EmpirePipeline:
         self.conn = mysql.connector.connect(
             host = 'localhost',
             user = 'root',
-            passwd = password,
+            passwd = 'D6608t253agam.',
             database = 'MyEmpire'
         )
         self.curr = self.conn.cursor()
@@ -40,7 +40,9 @@ class EmpirePipeline:
             hrs_worked_per_week int,
             platfrom text,
             domain_type text,
-            year_created text)""")
+            year_created text,
+            page_views int,
+            unique_users int)""")
         
     def process_item(self, item, spider):
         if "niche" in item:
@@ -69,14 +71,16 @@ class EmpirePipeline:
     def store_db2(self, item):
         for j in range(len(item["pricing_period"])):
 
-            self.curr.execute("""insert into Empire_Flippers_asset_tb values (%s, %s, %s, %s, %s, %s, %s)""",(
+            self.curr.execute("""insert into Empire_Flippers_asset_tb values (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",(
                 item['ids'][j],
                 item['pricing_period'][j],
                 item['monthly_revenue'][j],
                 item['hrs_worked_per_week'][j],
                 item['platfrom'][j],
                 item['domain_type'][j],
-                item['year_created'][j])) 
+                item['year_created'][j],
+                item['page_views'][j],
+                item['unique_users'][j])) 
 
             self.conn.commit()
 

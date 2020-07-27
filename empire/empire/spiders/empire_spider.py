@@ -122,6 +122,16 @@ class EmpireSpider(scrapy.Spider):
         newl3 = []
         newl4 = []
         
+        ee = []
+        e = []
+        eee = []
+        eeee = []
+        
+                
+        
+        
+
+        
         ids = response.xpath('/html/body/div[2]/div/section[3]/div/div/div[1]/ul/li[1]/text()').extract()
         pricing_period = response.css('.sites-summary_left li:nth-child(5)::text').extract() 
         monthly_revenue = response.css('.sites-summary_left li:nth-child(3)::text').extract()
@@ -129,6 +139,9 @@ class EmpireSpider(scrapy.Spider):
         platfrom = response.css('.grids-information-left p:nth-child(5)::text').extract()
         domain_type = response.css('.grids-information-left p:nth-child(4)::text').extract()
         year_created = response.css('.sites-summary_right p:nth-child(2)::text').extract()
+        page_views = response.xpath('//*[@id="traffic-twelve"]').extract()
+        unique_users= response.xpath('//*[@id="traffic-twelve"]').extract()
+
         
        
         def get_ids(id):
@@ -161,12 +174,37 @@ class EmpireSpider(scrapy.Spider):
                 newl4.append(i)
             return newl4
 
+
+        def get_page_views(page_view):
+            for i in page_view:
+                i = re.findall('[0-9]+', i)
+                pvs = i[12:24]
+                for pv in pvs:
+                    pv = int(pv)
+                    ee.append(pv)
+                    agv_p = sum(ee)//12
+                eee.append(agv_p)
+            return eee
+
+        def get_unique_users(u_u):
+            for i in u_u:
+                i = re.findall('[0-9]+', i)
+                unique_usrs = i[24:36]
+                for uu in unique_usrs:
+                    uu = int(uu)
+                    e.append(uu)
+                    agv_uu = sum(e)//12
+                eeee.append(agv_uu)
+            return eeee
+
+
         ids = get_ids(ids)
         pricing_period = pp_to_int(pricing_period)
         monthly_revenue = mr_to_int(monthly_revenue)
         hrs_worked_per_week = hw_to_int(hrs_worked_per_week)
         year_created = yc_to_y(year_created)
-
+        page_views = get_page_views(page_views)
+        unique_users = get_unique_users(unique_users)
 
         items['ids'] = ids
         items['pricing_period'] = pricing_period
@@ -175,6 +213,7 @@ class EmpireSpider(scrapy.Spider):
         items['platfrom'] = platfrom
         items['domain_type'] = domain_type
         items['year_created'] = year_created
-
+        items['page_views'] = page_views
+        items['unique_users'] = unique_users
         yield items
 
