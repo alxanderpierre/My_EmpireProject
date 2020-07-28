@@ -66,6 +66,7 @@ DOWNLOAD_DELAY = 5
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'empire.pipelines.EmpirePipeline': 300,
+    'empire.pipelines.DuplicatesPipeline': 200
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
